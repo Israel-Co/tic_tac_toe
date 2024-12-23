@@ -8,7 +8,7 @@
 class Game
 {
 private:
-	enum class gemeMode { PLAYER, AUTO };
+
 	enum class gameStatus { GAME_ON, WIN, GAME_OVER };
 
 	std::vector<std::string> players{ "X", "O" };
@@ -19,9 +19,11 @@ private:
 	gameStatus m_status;
 
 public:
+	enum class gameMode { PLAYER, AUTO };
+
 	Game(int boardSize, int lenSequence);
 
-	void play();
+	void play(gameMode mode, std::vector<int> moves);
 
 private:
 	bool makeMove(int cellNumber, std::string playerSymbol);
@@ -33,4 +35,3 @@ private:
 	void setStatus(int cellNumber, std::string playerSymbol);
 	int nextPlayer();
 };
-
