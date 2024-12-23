@@ -49,6 +49,25 @@ bool Board::isFull() const
 	return emptyCells.empty();
 }
 
+bool Board::inSameRow(int currentCell, int otherCell) const
+{
+	/*int firstCell = currentCell - getCol(currentCell); ==================================================
+	int lastCell = currentCell + (m_boardSize - getCol(currentCell));
+	return isCellInRange(otherCell) && otherCell >= firstCell && otherCell <= lastCell;*/
+	return isCellInRange(otherCell) && getRow(currentCell) ==  getRow(otherCell);
+}
+
+bool Board::inSameCol(int currentCell, int otherCell) const
+{
+	return isCellInRange(otherCell) && getCol(currentCell) == getCol(otherCell);
+}
+
+bool Board::inSameDiagonal(int currentCell, int otherCell) const
+{
+	return isCellInRange(otherCell) && 
+		std::abs(getCol(currentCell) - getCol(otherCell)) == std::abs(getRow(currentCell) - getRow(otherCell));
+}
+
 const std::vector<std::string>& Board::operator[](int row) const
 {
 	return board[row];
