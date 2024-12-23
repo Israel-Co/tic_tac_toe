@@ -26,6 +26,7 @@ public:
 	bool inSameRow(int currentCell, int otherCell) const;
 	bool inSameCol(int currentCell, int otherCell) const;
 	bool inSameDiagonal(int currentCell, int otherCell) const;
+	bool isCellInRange(int row, int col) const;
 
 	friend std::ostream& operator<<(std::ostream& os, const Board& obj);
 private:

@@ -65,6 +65,11 @@ bool Board::inSameDiagonal(int currentCell, int otherCell) const
 		std::abs(getCol(currentCell) - getCol(otherCell)) == std::abs(getRow(currentCell) - getRow(otherCell));
 }
 
+bool Board::isCellInRange(int row, int col) const
+{
+	return row >= 0 && row < m_boardSize && col >= 0 && col < m_boardSize;;
+}
+
 const std::vector<std::string>& Board::operator[](int row) const
 {
 	return board[row];

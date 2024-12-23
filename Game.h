@@ -8,6 +8,7 @@
 class Game
 {
 private:
+	enum class gemeMode { PLAYER, AUTO };
 	enum class gameStatus { GAME_ON, WIN, GAME_OVER };
 
 	std::vector<std::string> players{ "X", "O" };
@@ -26,7 +27,6 @@ private:
 	bool makeMove(int cellNumber, std::string playerSymbol);
 	bool horizontalSequence(int cellNumber, std::string playerSymbol) const;
 	bool verticalSequence(int cellNumber, std::string playerSymbol) const;
-	bool diagonalSequence(int cellNumber, std::string playerSymbol, int diff) const;
 	bool descendingDiagonalSequence(int cellNumber, std::string playerSymbol) const;
 	bool risingDiagonalSequence(int cellNumber, std::string playerSymbol) const;
 	bool win(int cellNumber, std::string playerSymbol) const;
