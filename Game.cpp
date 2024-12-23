@@ -10,20 +10,48 @@ Game::Game(int boardSize, int lenSequence)
 	}
 }
 
-void Game::play()
+void Game::play(gameMode mode, std::vector<int> moves)
 {
+	auto it = moves.begin();
 	int cellNumber;
 	while (m_status == gameStatus::GAME_ON)
 	{
 		std::cout << board << std::endl;
 		currentPlayer = nextPlayer();
 		std::cout << "Enter cell number" << std::endl;
-		std::cin >> cellNumber;
-		while (!makeMove(cellNumber, players[currentPlayer]))
+		if (mode == gameMode::PLAYER)
 		{
-			std::cout << "The cell is full or out of the range. Enter new cell number" << std::endl;
 			std::cin >> cellNumber;
 		}
+		else
+		{
+			cellNumber = *it;
+			if (it == moves.end() && m_status == gameStatus::GAME_ON)
+			{
+				exit(1);
+			}
+			it++;
+		}
+
+		while (!makeMove(cellNumber, players[currentPlayer]))
+		{
+			std::cout << std::endl << players[currentPlayer] << " enter into cell " << cellNumber << std::endl;
+			std::cout << "The cell is full or out of the range. Enter new cell number" << std::endl;
+			if (mode == gameMode::PLAYER)
+			{
+				std::cin >> cellNumber;
+			}
+			else
+			{
+				cellNumber = *it;
+				if (it == moves.end() && m_status == gameStatus::GAME_ON)
+				{
+					exit(1);
+				}
+				it++;
+			}
+		}
+		std::cout << std::endl << players[currentPlayer] << " enter into cell " << cellNumber << std::endl;
 		setStatus(cellNumber, players[currentPlayer]);
 	}
 
@@ -133,7 +161,7 @@ bool Game::descendingDiagonalSequence(int cellNumber, std::string playerSymbol) 
 	int col = board.getCol(cellNumber);
 	int fromRow = row, fromCol = col;
 	int toRow = row, toCol = col;
-  
+
 	for (size_t i = 0; i <= m_lenSequence; i++)
 	{
 		if (!board.isCellInRange(row - i, col - i))
