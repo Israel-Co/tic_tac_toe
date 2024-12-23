@@ -51,9 +51,6 @@ bool Board::isFull() const
 
 bool Board::inSameRow(int currentCell, int otherCell) const
 {
-	/*int firstCell = currentCell - getCol(currentCell); ==================================================
-	int lastCell = currentCell + (m_boardSize - getCol(currentCell));
-	return isCellInRange(otherCell) && otherCell >= firstCell && otherCell <= lastCell;*/
 	return isCellInRange(otherCell) && getRow(currentCell) ==  getRow(otherCell);
 }
 
@@ -72,11 +69,6 @@ const std::vector<std::string>& Board::operator[](int row) const
 {
 	return board[row];
 }
-
-//std::string Board::getCellContent(int row, int col) const ==========================================
-//{
-//	return board.at(row).at(col);
-//}
 
 int Board::getRow(int cellNumber) const
 {
@@ -124,10 +116,8 @@ std::ostream& operator<<(std::ostream& os, const Board& board)
 	{
 		for (size_t col = 0; col < board.colNumber(); col++)
 		{
-			// os << board.getCellContent(row, col) << " "; =========================
 			os << std::setw(width) << board[row][col];
 		}
-		// std::cout << std::endl; ==================================================
 		os << std::endl;
 	}
 	return os;

@@ -19,7 +19,6 @@ public:
 	int colNumber() const;
 
 	const std::vector<std::string>& operator[](int row) const;
-	// std::string getCellContent(int row, int col) const;
 	int getRow(int cellNumber) const;
 	int getCol(int cellNumber) const;
 	bool updateCellContent(int cellNumber, std::string playerSymbol);

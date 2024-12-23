@@ -31,11 +31,11 @@ void Game::play()
 	{
 	case Game::gameStatus::WIN:
 		std::cout << std::endl << board;
-		std::cout << std::endl << players[currentPlayer] << " is the winner" << std::endl;
+		std::cout << std::endl << "----- " << players[currentPlayer] << " is the winner -----" << std::endl;
 		break;
 	case Game::gameStatus::GAME_OVER:
 		std::cout << std::endl << board << std::endl;
-		std::cout << "GAME OVER, the board is full" << std::endl;
+		std::cout << "----- GAME OVER, the board is full -----" << std::endl;
 		break;
 	default:
 		break;
@@ -126,12 +126,11 @@ bool Game::verticalSequence(int cellNumber, std::string playerSymbol) const
 	return false;
 }
 
-bool Game::descendingDiagonalSequence(int cellNumber, std::string playerSymbol) const
+bool Game::diagonalSequence(int cellNumber, std::string playerSymbol, int diff) const
 {
 	int counter = 0;
 	std::vector<int> diagonalSequenceCells;
 	int newCell = cellNumber;
-	int diff = board.rowNumber() + 1;
 	int row, col;
 
 	for (int i = 1; i <= m_lenSequence && board.inSameDiagonal(cellNumber, newCell); i++)
@@ -165,205 +164,17 @@ bool Game::descendingDiagonalSequence(int cellNumber, std::string playerSymbol) 
 		}
 	}
 	return false;
+}
+
+bool Game::descendingDiagonalSequence(int cellNumber, std::string playerSymbol) const
+{
+	return diagonalSequence(cellNumber, playerSymbol, board.rowNumber() + 1);
 }
 
 bool Game::risingDiagonalSequence(int cellNumber, std::string playerSymbol) const
 {
-	int counter = 0;
-	std::vector<int> diagonalSequenceCells;
-	int newCell = cellNumber;
-	int diff = board.rowNumber() - 1;
-	int row, col;
-
-	for (int i = 1; i <= m_lenSequence && board.inSameDiagonal(cellNumber, newCell); i++)
-	{
-		diagonalSequenceCells.insert(diagonalSequenceCells.begin(), newCell);
-		newCell = cellNumber - i * diff;
-	}
-
-	newCell = cellNumber + diff;
-	for (int i = 2; i <= m_lenSequence && board.inSameDiagonal(cellNumber, newCell); i++)
-	{
-		diagonalSequenceCells.push_back(newCell);
-		newCell = cellNumber + i * diff;
-	}
-
-	for (auto cell : diagonalSequenceCells)
-	{
-		row = board.getRow(cell);
-		col = board.getCol(cell);
-		if (board[row][col] != playerSymbol)
-		{
-			counter = 0;
-		}
-		else
-		{
-			++counter;
-		}
-
-		if (counter >= m_lenSequence)
-		{
-			return true;
-		}
-	}
-	return false;
+	return diagonalSequence(cellNumber, playerSymbol, board.rowNumber() - 1);
 }
-
-//bool Game::horizontalSequence(int cellNumber, std::string playerSymbol) const
-//{
-//	int counter = 0;
-//	int row = board.getRow(cellNumber);
-//	int fromCol = board.getCol(cellNumber) - m_lenSequence + 1;
-//	int toCol = board.getCol(cellNumber) + m_lenSequence - 1;
-//
-//	if (fromCol < 0)
-//	{
-//		fromCol = 0;
-//	}
-//	if (toCol >= board.colNumber())
-//	{
-//		toCol = board.colNumber() - 1;
-//	}
-//
-//	for (size_t col = fromCol; col <= toCol && counter < m_lenSequence; col++)
-//	{
-//		if (/*board.getCellContent(row, col)*/ board[row][col] != playerSymbol /*&& counter < m_lenSequence*/) // ========
-//		{
-//			// return false; ======================================================================
-//			counter = 0;
-//		}
-//		else
-//		{
-//			++counter;
-//		}
-//	}
-//	return counter >= m_lenSequence;
-//}
-
-//bool Game::verticalSequence(int cellNumber, std::string playerSymbol) const
-//{
-//	int counter = 0;
-//	int col = board.getCol(cellNumber);
-//	int fromRow = board.getRow(cellNumber) - m_lenSequence + 1;
-//	int toRow = board.getRow(cellNumber) + m_lenSequence - 1;
-//
-//	if (fromRow < 0)
-//	{
-//		fromRow = 0;
-//	}
-//	if (toRow >= board.rowNumber())
-//	{
-//		toRow = board.rowNumber() - 1;
-//	}
-//
-//	for (size_t row = fromRow; row <= toRow && counter < m_lenSequence; row++)
-//	{
-//		if (/*board.getCellContent(row, col)*/ board[row][col] != playerSymbol /*&& counter < m_lenSequence*/) // =========
-//		{
-//			//return false; =====================================================================
-//			counter = 0;
-//		}
-//		else
-//		{
-//			++counter;
-//		}
-//	}
-//
-//	return counter >= m_lenSequence;
-//}
-
-//bool Game::descendingDiagonalSequence(int cellNumber, std::string playerSymbol) const
-//{
-//	int counter = 0;
-//	int fromRow = board.getRow(cellNumber) - m_lenSequence + 1;
-//	int toRow = board.getRow(cellNumber) + m_lenSequence - 1;
-//	int fromCol = board.getCol(cellNumber) - m_lenSequence + 1;
-//	int toCol = board.getCol(cellNumber) + m_lenSequence - 1;
-//
-//	if (fromRow < 0)
-//	{
-//		fromRow = 0;
-//	}
-//	if (toRow >= board.rowNumber())
-//	{
-//		toRow = board.rowNumber() - 1;
-//	}
-//	if (fromCol < 0)
-//	{
-//		fromCol = 0;
-//	}
-//	if (toCol >= board.colNumber())
-//	{
-//		toCol = board.colNumber() - 1;
-//	}
-//
-//	/*if (board.rowNumber() - fromRow < m_lenSequence || board.colNumber() - fromCol < m_lenSequence)
-//	{
-//		return false;
-//	}*/
-//
-//	for (size_t row = fromRow, col = fromCol; row <= toRow && col <= toCol && counter < m_lenSequence; row++, col++)
-//	{
-//		if (/*board.getCellContent(row, col)*/ board[row][col] != playerSymbol /*&& counter < m_lenSequence*/) // ========
-//		{
-//			// return false; =====================
-//			counter = 0;
-//		}
-//		else
-//		{
-//			++counter;
-//		}
-//	}
-//
-//	return counter >= m_lenSequence;
-//}
-
-//bool Game::risingDiagonalSequence(int cellNumber, std::string playerSymbol) const
-//{
-//	int counter = 0;
-//	int fromRow = board.getRow(cellNumber) + m_lenSequence - 1;
-//	int toRow = board.getRow(cellNumber) - m_lenSequence + 1;
-//	int fromCol = board.getCol(cellNumber) - m_lenSequence + 1;
-//	int toCol = board.getCol(cellNumber) + m_lenSequence - 1;
-//
-//	if (fromRow >= board.rowNumber())// fromRow < 0) ===================================================================
-//	{
-//		fromRow = board.rowNumber() - 1;
-//	}
-//	if (toRow < 0)
-//	{
-//		toRow = 0;
-//	}
-//	if (fromCol < 0)
-//	{
-//		fromCol = 0;
-//	}
-//	if (toCol >= board.colNumber())
-//	{
-//		toCol = board.colNumber() - 1;
-//	}
-//
-//	// if (board.rowNumber() - fromRow < m_lenSequence || board.colNumber() - fromCol < m_lenSequence) ====================
-//	/*if (fromRow + 1 < m_lenSequence || board.colNumber() - fromCol < m_lenSequence)
-//	{
-//		return false;
-//	}*/
-//
-//	for (int row = fromRow, col = fromCol; row >= toRow && col <= toCol && counter < m_lenSequence; row--, col++)
-//	{
-//		if (/*board.getCellContent(row, col)*/ board[row][col] != playerSymbol) // ========================================
-//		{
-//			// return false; ==================================================================
-//			counter = 0;
-//		}
-//		else
-//		{
-//			++counter;
-//		}
-//	}
-//
-//	return counter >= m_lenSequence;
-//}
 
 bool Game::win(int cellNumber, std::string playerSymbol) const
 {
