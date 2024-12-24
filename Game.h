@@ -24,7 +24,7 @@ public:
 	void play();
 
 private:
-	bool makeMove(int cellNumber, std::string playerSymbol);
+	// bool makeMove(int cellNumber, std::string playerSymbol);
 	bool horizontalSequence(int cellNumber, std::string playerSymbol) const;
 	bool verticalSequence(int cellNumber, std::string playerSymbol) const;
 	bool descendingDiagonalSequence(int cellNumber, std::string playerSymbol) const;
