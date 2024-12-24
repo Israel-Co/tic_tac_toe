@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game.h"
 
 Game::Game(int boardSize, int lenSequence)
 	: board(boardSize), m_lenSequence(lenSequence), m_status(gameStatus::GAME_ON),
